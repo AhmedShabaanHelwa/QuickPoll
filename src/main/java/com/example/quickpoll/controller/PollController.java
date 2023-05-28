@@ -43,22 +43,30 @@ public class PollController {
 
     @GetMapping("/polls/{id}")
     public ResponseEntity<Poll> getPoll(@PathVariable Long id) throws Exception {
+
         Optional<Poll> poll = pollRepository.findById(id);
         if (!poll.isPresent())
             throw new Exception("Poll not found!");
+
         return new ResponseEntity<>(poll.get(), HttpStatus.OK);
     }
 
     @PutMapping("/polls/{id}")
     public ResponseEntity<Poll> updatePoll(@PathVariable Long id, @RequestBody Poll newPoll) throws Exception {
+
         Optional<Poll> poll = pollRepository.findById(id);
-        if (!poll.isPresent()) throw new Exception("No poll presents at {" + id + "}");
+
+        if (!poll.isPresent())
+            throw new Exception("No poll presents at {" + id + "}");
+
         return new ResponseEntity<>(newPoll, HttpStatus.OK);
     }
 
     @DeleteMapping("/polls/{id}")
     public ResponseEntity<Poll> deletePoll(@PathVariable Long id) {
+
         pollRepository.deleteById(id);
+
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }
