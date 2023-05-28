@@ -6,13 +6,11 @@ import jakarta.inject.Inject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 
 @RestController
@@ -41,5 +39,13 @@ public class PollController {
         responseHeaders.setLocation(uri);
 
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/polls/{id}")
+    public ResponseEntity<Poll> getPoll(@PathVariable Long id) throws Exception {
+        Optional<Poll> poll = pollRepository.findById(id);
+        if (!poll.isPresent())
+            throw new Exception("Poll not found!");
+        return new ResponseEntity<>(poll.get(), HttpStatus.OK);
     }
 }
