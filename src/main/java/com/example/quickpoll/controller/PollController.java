@@ -55,4 +55,10 @@ public class PollController {
         if (!poll.isPresent()) throw new Exception("No poll presents at {" + id + "}");
         return new ResponseEntity<>(newPoll, HttpStatus.OK);
     }
+
+    @DeleteMapping("/polls/{id}")
+    public ResponseEntity<Poll> deletePoll(@PathVariable Long id) {
+        pollRepository.deleteById(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 }
