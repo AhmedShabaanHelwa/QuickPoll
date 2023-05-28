@@ -48,4 +48,11 @@ public class PollController {
             throw new Exception("Poll not found!");
         return new ResponseEntity<>(poll.get(), HttpStatus.OK);
     }
+
+    @PutMapping("/polls/{id}")
+    public ResponseEntity<Poll> updatePoll(@PathVariable Long id, @RequestBody Poll newPoll) throws Exception {
+        Optional<Poll> poll = pollRepository.findById(id);
+        if (!poll.isPresent()) throw new Exception("No poll presents at {" + id + "}");
+        return new ResponseEntity<>(newPoll, HttpStatus.OK);
+    }
 }
